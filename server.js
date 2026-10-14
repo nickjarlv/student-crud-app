@@ -1,3 +1,6 @@
+const crypto = require("crypto");
+globalThis.crypto = crypto;
+
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -21,18 +24,19 @@ app.use("/api/students", studentRoutes);
 // Port
 const PORT = process.env.PORT || 3000;
 
-// Start server FIRST
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on port ${PORT}`);
-});
-
-// Connect to MongoDB
+// Connect to MongoDB first, then start the server
 mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => {
         console.log("Connected to MongoDB");
+
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`Server running on port ${PORT}`);
+            console.log(
+                `Open your browser and go to: http://localhost:${PORT}`
+            );
+        });
     })
     .catch((error) => {
         console.error("MongoDB connection error:", error);
     });
-
