@@ -69,11 +69,27 @@ const deleteStudent = async (req, res) => {
     }
 };
 
+// Search students
+const searchStudents = async (req, res) => {
+    try {
+        const q = req.query.q || "";
+
+        const students = await Student.find({
+            name: { $regex: q, $options: "i" }
+        });
+
+        res.status(200).json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     createStudent,
     getStudents,
     getStudent,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    searchStudents
 };
 
