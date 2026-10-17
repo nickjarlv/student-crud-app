@@ -69,13 +69,22 @@ const deleteStudent = async (req, res) => {
     }
 };
 
-// Search students
+// Search students by name, studentId, or program
 const searchStudents = async (req, res) => {
     try {
-        const q = req.query.q || "";
+        const q = (req.query.q || "").trim();
+
+        if (!q) {
+            const all = await Student.find();
+            return res.status(200).json(all);
+        }
+
+        // escape special regex characters
+        const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const regex = new RegExp(safe, "i");
 
         const students = await Student.find({
-            name: { $regex: q, $options: "i" }
+            $or: [{ name: regex }, { studentId: regex }, { program: regex }]
         });
 
         res.status(200).json(students);
@@ -92,4 +101,3 @@ module.exports = {
     deleteStudent,
     searchStudents
 };
-

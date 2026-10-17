@@ -1,4 +1,3 @@
-
 const API_URL = "/api/students";
 
 const studentForm = document.getElementById("studentForm");
@@ -16,17 +15,34 @@ const cancelButton = document.getElementById("cancelButton");
 const formTitle = document.getElementById("formTitle");
 const message = document.getElementById("message");
 
-// LOAD STUDENTS
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
+const clearBtn = document.getElementById("clearBtn");
 
-async function loadStudents() {
+// LOAD STUDENTS (with optional search query)
+
+async function loadStudents(query = "") {
 
     try {
 
-        const response = await fetch(API_URL);
+        const url = query
+            ? `${API_URL}/search?q=${encodeURIComponent(query)}`
+            : API_URL;
+
+        const response = await fetch(url);
 
         const students = await response.json();
 
         studentTableBody.innerHTML = "";
+
+        if (students.length === 0) {
+            studentTableBody.innerHTML = `
+                <tr>
+                    <td colspan="4">No students found.</td>
+                </tr>
+            `;
+            return;
+        }
 
         students.forEach(student => {
 
@@ -323,8 +339,24 @@ function showMessage(text, isError = false) {
     }, 3000);
 }
 
+// SEARCH STUDENTS
+
+searchBtn.addEventListener("click", function () {
+    loadStudents(searchInput.value.trim());
+});
+
+searchInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        loadStudents(searchInput.value.trim());
+    }
+});
+
+clearBtn.addEventListener("click", function () {
+    searchInput.value = "";
+    loadStudents();
+});
+
 
 // LOAD DATA WHEN PAGE OPENS
 
 loadStudents();
-

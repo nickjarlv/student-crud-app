@@ -143,3 +143,13 @@ tr:hover {
         padding: 8px;
     }
 }
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.search-box input {
+    flex: 1;
+}
