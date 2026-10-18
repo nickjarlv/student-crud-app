@@ -76,7 +76,7 @@ button:hover {
 }
 
 .cancel-button {
-    background-color: #7f8c8d;
+    background-color: #57ced7;
 }
 
 /* Message */
@@ -87,7 +87,7 @@ button:hover {
 
 /* Records Section */
 .records-container {
-    background-color: white;
+    background-color: rgb(25, 21, 21);
     padding: 25px;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -107,7 +107,7 @@ td {
 }
 
 th {
-    background-color: #34495e;
+    background-color: #5798d8;
     color: white;
 }
 
@@ -117,11 +117,11 @@ tr:hover {
 
 /* Action buttons */
 .edit-button {
-    background-color: #f39c12;
+    background-color: #f312ce;
 }
 
 .delete-button {
-    background-color: #e74c3c;
+    background-color: #530d05;
 }
 
 /* Mobile */
